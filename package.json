@@ -2,8 +2,10 @@
   "name": "login-test",
   "version": "1.0.0",
   "description": "login application",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/iosifv/login-test/issues"
   },
-  "homepage": "https://github.com/iosifv/login-test#readme"
+  "homepage": "https://github.com/iosifv/login-test#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
