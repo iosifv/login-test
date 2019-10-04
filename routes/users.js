@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const User = require('./../models/User');
-const util = require('./util');
+const util = require('../util/util');
+const passport = require('passport');
 
 router.get('/login', (req, res) => res.render('login'));
 router.get('/register', (req, res) => res.render('register'));
@@ -24,27 +25,54 @@ router.post('/register', (req, res) => {
     }
 
     if (util.getErrors().length > 0) {
-        res.render('register', { name, email, password, confirm, errors: util.getErrors()})
-        
-        return
-    }
+        res.render('register', { name, email, password, confirm, errors: util.getErrors() })
+    } else {
+        User.findOne({ email: email })
+            .then(user => {
+                if (user) {
+                    util.pushError("Email is already registered");
+                    res.render('register', { name, email, password, confirm, errors: util.getErrors() });
+                } else {
+                    const newUser = new User({
+                        name,
+                        email,
+                        password
+                    });
 
-    User.findOne({ email: email})
-        .then(user => {
-            if (user) {
-                util.pushError("Email is already registered");
-                res.render('register', { name, email, password, confirm, errors: util.getErrors()});
-                
-                return;
-            }
-            const newUser = new User({
-                name, 
-                email, 
-                password
+                    bcrypt.genSalt(10, (err, salt) =>
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) {
+                                throw err;
+                            }
+                            // Overwriting the password with the hashed password
+                            newUser.password = hash;
+                            console.log('Saving new user...');
+                            newUser.save()
+                                .then(user => {
+                                    res.redirect('/users/login')
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                });
+                        }))
+                }
             });
-        });
-
+    }
     res.send('Passed..')
+});
+
+router.post('/login', (req, res, next) => {
+    console.log(req.body)
+    passport.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/login',
+        failureFlash: false
+    })(req, res, next);
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/users/login');
 });
 
 module.exports = router;
