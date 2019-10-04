@@ -6,11 +6,9 @@ const User = require("./../models/User");
 module.exports = function(passport) {
   passport.use(
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-      console.log("Executing local strategy...");
       User.findOne({ email: email })
         .then(user => {
           if (!user) {
-            console.log("Provided email does not exist");
             return done(null, false, {
               message: "Provided email does not exist"
             });
@@ -24,7 +22,6 @@ module.exports = function(passport) {
               console.log("Match!");
               return done(null, user);
             } else {
-              console.log("Incorrect password.");
               return done(null, false, {
                 message: "Incorrect password"
               });

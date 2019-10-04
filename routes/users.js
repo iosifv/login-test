@@ -4,9 +4,12 @@ const bcrypt = require("bcryptjs");
 const User = require("./../models/User");
 const util = require("../util/util");
 const passport = require("passport");
+const { forwardAuthenticated } = require("../util/auth");
 
-router.get("/login", (req, res) => res.render("login"));
-router.get("/register", (req, res) => res.render("register"));
+router.get("/login", forwardAuthenticated, (req, res) => res.render("login"));
+router.get("/register", forwardAuthenticated, (req, res) =>
+  res.render("register")
+);
 
 router.post("/register", (req, res) => {
   const { name, email, password, confirm } = req.body;
@@ -51,7 +54,7 @@ router.post("/register", (req, res) => {
         });
 
         bcrypt.genSalt(10, (err, salt) =>
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
+          bcrypt.hash(password, salt, (err, hash) => {
             if (err) {
               throw err;
             }
@@ -60,7 +63,7 @@ router.post("/register", (req, res) => {
             console.log("Saving new user...");
             newUser
               .save()
-              .then(user => {
+              .then(() => {
                 res.redirect("/users/login");
               })
               .catch(err => {
@@ -75,11 +78,10 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res, next) => {
-  console.log(req.body);
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/users/login",
-    failureFlash: false
+    failureFlash: true
   })(req, res, next);
 });
 
