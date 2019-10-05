@@ -6,10 +6,12 @@ const util = require("../util/util");
 const passport = require("passport");
 const { forwardAuthenticated } = require("../util/auth");
 
-router.get("/login", forwardAuthenticated, (req, res) => res.render("login"));
-router.get("/register", forwardAuthenticated, (req, res) =>
+router.get("/login", forwardAuthenticated, (req, res) => {
+  res.render("login")
+});
+router.get("/register", forwardAuthenticated, (req, res) => {
   res.render("register")
-);
+});
 
 router.post("/register", (req, res) => {
   const { name, email, password, confirm } = req.body;

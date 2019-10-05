@@ -8,6 +8,12 @@ cp .env.TEMPLATE .env
 nano .env
 ```
 
+## Test
+
+```bash
+npm test
+```
+
 ## Run
 
 Open your terminal an run *npm start* or *npm run dev*

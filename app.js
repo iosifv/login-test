@@ -55,3 +55,5 @@ app.use("/users", require("./routes/users"));
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, console.log(`Server started using port ${PORT} ...`));
+
+module.exports = app;
