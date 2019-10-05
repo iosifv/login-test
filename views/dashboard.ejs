@@ -1,3 +1,27 @@
 <h1 class="mt-4">Dashboard</h1>
+<% include ./partials/messages %>
 <p class="lead mb-3">Welcome <%= user.name %></p>
-<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<div class="card card-body mt-4">
+  <form action="/dashboard" method="POST">
+    <div class="form-group">
+      <label for="info">My Secret Info</label>
+      <input
+        type="info"
+        id="info"
+        name="info"
+        class="form-control"
+        placeholder="Enter info"
+        value="<%= user.info %>"
+      />
+      <input type="hidden" name="email" value="<%= user.email %>" />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">
+      Update
+    </button>
+  </form>
+</div>
+
+<div class="mt-4">
+  <a href="/users/logout" class="btn btn-secondary btn-block">Logout</a>
+</div>

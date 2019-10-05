@@ -63,7 +63,11 @@ router.post("/register", (req, res) => {
             console.log("Saving new user...");
             newUser
               .save()
-              .then(() => {
+              .then(user => {
+                req.flash(
+                  'success_msg',
+                  'You are now registered and can log in'
+                );
                 res.redirect("/users/login");
               })
               .catch(err => {
