@@ -1,6 +1,19 @@
 # login-test
 
-### Task
+## Install
+
+```bash
+npm install
+cp .env.TEMPLATE .env
+nano .env
+```
+
+## Run
+
+Open your terminal an run *npm start* or *npm run dev*
+Visit http:// localhost:3003
+
+## Task description
 
 Implement a signup/login system and components
 
