@@ -80,7 +80,6 @@ router.post("/register", (req, res) => {
       }
     });
   }
-  res.send("Passed..");
 });
 
 router.post("/login", (req, res, next) => {
