@@ -25,7 +25,7 @@
   "homepage": "https://github.com/iosifv/login-test#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.1",
+    "mocha": "^6.2.3",
     "nodemon": "^1.19.3",
     "supertest": "^4.0.2"
   },
